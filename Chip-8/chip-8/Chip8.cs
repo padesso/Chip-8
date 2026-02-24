@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System;
 using System.IO;
 
 //Main emulator class... maybe move this into a library or something.
@@ -137,7 +134,7 @@ namespace CHIP_8
 			}
 			
 			// Copy to Chip8 memory
-			int lSize = loadedProgramBytes.Count();
+			int lSize = loadedProgramBytes.Length;
 			if ((4096 - 512) > lSize)
 			{
 				for (int i = 0; i < lSize; ++i)
