@@ -1,0 +1,28 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chip8.Core", "src\Chip8.Core\Chip8.Core.csproj", "{FA4A7EEB-8117-468A-9E36-60D66D59B3FD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chip8.Avalonia", "src\Chip8.Avalonia\Chip8.Avalonia.csproj", "{E62C3C68-FD37-4AB0-9700-F824DDCC854F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FA4A7EEB-8117-468A-9E36-60D66D59B3FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA4A7EEB-8117-468A-9E36-60D66D59B3FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA4A7EEB-8117-468A-9E36-60D66D59B3FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA4A7EEB-8117-468A-9E36-60D66D59B3FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E62C3C68-FD37-4AB0-9700-F824DDCC854F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E62C3C68-FD37-4AB0-9700-F824DDCC854F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E62C3C68-FD37-4AB0-9700-F824DDCC854F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E62C3C68-FD37-4AB0-9700-F824DDCC854F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

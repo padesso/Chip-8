@@ -1,41 +1,66 @@
 # Chip-8 Emulator
 
-A [CHIP-8](https://en.wikipedia.org/wiki/CHIP-8) emulator built with C# and WPF targeting .NET 9.
+A [CHIP-8](https://en.wikipedia.org/wiki/CHIP-8) emulator in C# targeting .NET 9, organized as a shared core plus desktop UI frontends:
+
+- `Chip8.Wpf` for Windows
+- `Chip8.Avalonia` for macOS (and other cross-platform desktop targets)
+
+## Project Layout
+
+```text
+Chip-8/
+├── CHIP-8.sln            # Full solution (Core + WPF + Avalonia)
+├── CHIP-8.Mac.sln        # macOS-friendly solution (Core + Avalonia)
+├── ROMS/                 # Included ROMs
+└── src/
+    ├── Chip8.Core/       # Emulator CPU/memory/timers
+    ├── Chip8.Wpf/        # Windows WPF frontend
+    └── Chip8.Avalonia/   # Cross-platform desktop frontend
+```
 
 ## Features
 
 - Full CHIP-8 instruction set emulation
-- 64×32 pixel display rendered at 640×320 (10× scaling) using WPF `WriteableBitmap`
+- 64x32 monochrome display
 - 60 Hz timer updates with 10 CPU cycles per frame (~600 Hz effective clock)
-- High-resolution timer (`MicroTimer`) for accurate frame pacing
-- Load any CHIP-8 ROM via a file-open dialog
-- 23 classic ROMs included in the `ROMS/` directory
+- Shared emulator core reused by both desktop UIs
+- 23 classic ROMs included in `ROMS/`
 
-## Getting Started
+## Prerequisites
 
-### Prerequisites
+- [.NET 9 SDK](https://dotnet.microsoft.com/download/dotnet/9.0)
 
-- Windows
-- [.NET 9 SDK](https://dotnet.microsoft.com/download/dotnet/9.0) or later
-- [Visual Studio 2022](https://visualstudio.microsoft.com/) (or later) with the **.NET desktop development** workload, **or** the [.NET 9 SDK](https://dotnet.microsoft.com/download/dotnet/9.0) for command-line builds
-
-### Build & Run
-
-1. Open `Chip-8/CHIP-8.sln` in Visual Studio.
-2. Build the solution (`Ctrl+Shift+B`).
-3. Run the project (`F5` or `Ctrl+F5`).
-4. Use **File → Open Program** to load a ROM from the `ROMS/` directory.
-
-Alternatively, use the .NET CLI:
+On macOS with Homebrew:
 
 ```bash
-cd Chip-8/chip-8
-dotnet run
+brew install --cask dotnet-sdk
+```
+
+## Build and Run on macOS (Avalonia)
+
+```bash
+cd Chip-8
+dotnet --info
+dotnet restore CHIP-8.Mac.sln
+dotnet build CHIP-8.Mac.sln
+dotnet run --project src/Chip8.Avalonia
+```
+
+The app attempts to load `ROMS/PONG` automatically when started from the `Chip-8` directory.
+Use **File -> Open Program** to load another ROM.
+
+## Build and Run on Windows (WPF)
+
+```bash
+cd Chip-8
+dotnet restore CHIP-8.sln
+dotnet build CHIP-8.sln
+dotnet run --project src/Chip8.Wpf
 ```
 
 ## Keyboard Mapping
 
-The original CHIP-8 system used a 16-key hexadecimal keypad. The emulator maps it to the left side of a standard keyboard:
+The emulator uses the standard CHIP-8 keypad mapping:
 
 | CHIP-8 Key | Keyboard Key |
 |:----------:|:------------:|
@@ -56,11 +81,9 @@ The original CHIP-8 system used a 16-key hexadecimal keypad. The emulator maps i
 | `B`        | `C`          |
 | `F`        | `V`          |
 
-Press **Escape** to exit the emulator.
+Press `Escape` to quit.
 
 ## Included ROMs
-
-The `ROMS/` directory contains the following classic CHIP-8 programs:
 
 | ROM        | Description              |
 |------------|--------------------------|
@@ -87,16 +110,3 @@ The `ROMS/` directory contains the following classic CHIP-8 programs:
 | VBRIX      | Vertical Breakout clone  |
 | VERS       | Worm game                |
 | WIPEOFF    | Paddle game              |
-
-## Technical Overview
-
-| Component      | Details                                                   |
-|----------------|-----------------------------------------------------------|
-| Memory         | 4 KB (4096 bytes); programs loaded at `0x200`            |
-| Display        | 64×32 monochrome pixels, XOR sprite drawing              |
-| Registers      | 16 × 8-bit general purpose (`V0`–`VF`), 16-bit `I`      |
-| Stack          | 16 levels                                                 |
-| Timers         | Delay timer and sound timer, decremented at 60 Hz        |
-| Input          | 16-key hexadecimal keypad                                 |
-| Font           | Built-in 4×5 pixel sprites for characters `0`–`F`       |
-

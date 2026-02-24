@@ -1,0 +1,7 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <RootNamespace>Chip8.Core</RootNamespace>
+    <AssemblyName>Chip8.Core</AssemblyName>
+  </PropertyGroup>
+</Project>
