@@ -16,6 +16,9 @@ namespace CHIP_8
 		//Will not having an unsigned char in C# impact these?
 		byte[] memory = new byte[4096];
 
+		//Random number generator (reuse to avoid GC pressure and poor seeds)
+		Random rng = new Random();
+
 		/* Memory Map
 		 *  0x000-0x1FF - Chip 8 interpreter (contains font set in emu)
 		 *  0x050-0x0A0 - Used for the built in 4x5 pixel font set (0-F)
@@ -303,10 +306,7 @@ namespace CHIP_8
 				break;
 		
 				case 0xC000: // CXNN: Sets VX to a random number and NN
-					//V[(opcode & 0x0F00) >> 8] = (rand() % 0xFF) & (opcode & 0x00FF);
-					Random rGen = new Random();
-					ushort rand = (ushort)rGen.Next();
-					V[(opcode & 0x0F00) >> 8] = (byte)((rand % 0xFF) & (opcode & 0xFF));
+					V[(opcode & 0x0F00) >> 8] = (byte)(rng.Next(256) & (opcode & 0x00FF));
 					pc += 2;
 				break;
 	
@@ -452,7 +452,13 @@ namespace CHIP_8
 					//Console.WriteLine("Unknown opcode: 0x%X\n", opcode);
 			}	
 
-			// Update timers
+		}
+
+		/// <summary>
+		/// Update delay and sound timers. Should be called at 60 Hz.
+		/// </summary>
+		public void UpdateTimers()
+		{
 			if(delay_timer > 0)
 				--delay_timer;
 
@@ -461,8 +467,7 @@ namespace CHIP_8
 				if(sound_timer == 1)
 					Console.Beep();
 				--sound_timer;
-			}	
-
+			}
 		}
 
 		public void DebugRender()
