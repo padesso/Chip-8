@@ -12,6 +12,7 @@ namespace CHIP_8
 	{
 		const int SCREEN_WIDTH = 64;
 		const int SCREEN_HEIGHT = 32;
+		const int CYCLES_PER_FRAME = 10;
 
 		//the emulator
 		Chip8 chip8;
@@ -44,10 +45,16 @@ namespace CHIP_8
 
 		void hiResTick(object sender, MicroTimerEventArgs timerEventArgs)
 		{
-			chip8.EmulateCycle();
+			for (int i = 0; i < CYCLES_PER_FRAME; i++)
+				chip8.EmulateCycle();
+
+			chip8.UpdateTimers();
 
 			if (chip8.drawFlag)
-				Dispatcher.Invoke(drawGraphics);
+			{
+				chip8.drawFlag = false;
+				Dispatcher.BeginInvoke(drawGraphics);
+			}
 		}
 
 		private void setupInput()
