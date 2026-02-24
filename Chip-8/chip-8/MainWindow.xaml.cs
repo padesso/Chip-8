@@ -53,7 +53,6 @@ namespace CHIP_8
 		private void setupInput()
 		{
 			//nothing needed here right now since key bindings are done in XAML
-			return;
 		}
 
 		private void setupGraphics()
@@ -96,10 +95,10 @@ namespace CHIP_8
 			if (e.Key == Key.Escape)
 				this.Close();
 
-			if (e.Key == Key.D1)       chip8.key[0x1] = 1;
-			else if (e.Key == Key.D2)  chip8.key[0x2] = 1;
-			else if (e.Key == Key.D3)  chip8.key[0x3] = 1;
-			else if (e.Key == Key.D4)  chip8.key[0xC] = 1;
+			if (e.Key == Key.D1)      chip8.key[0x1] = 1;
+			else if (e.Key == Key.D2) chip8.key[0x2] = 1;
+			else if (e.Key == Key.D3) chip8.key[0x3] = 1;
+			else if (e.Key == Key.D4) chip8.key[0xC] = 1;
 
 			else if (e.Key == Key.Q) chip8.key[0x4] = 1;
 			else if (e.Key == Key.W) chip8.key[0x5] = 1;
@@ -121,7 +120,7 @@ namespace CHIP_8
 		{
 			if (chip8 == null) return;
 
-			if (e.Key == Key.D1)       chip8.key[0x1] = 0;
+			if (e.Key == Key.D1)      chip8.key[0x1] = 0;
 			else if (e.Key == Key.D2) chip8.key[0x2] = 0;
 			else if (e.Key == Key.D3) chip8.key[0x3] = 0;
 			else if (e.Key == Key.D4) chip8.key[0xC] = 0;
