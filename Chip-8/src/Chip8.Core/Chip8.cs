@@ -37,6 +37,7 @@ namespace Chip8.Core
 		//Timers
 		byte delay_timer;
 		byte sound_timer;
+		bool soundActive;
 
 		//Stack
 		ushort[] stack = new ushort[16];
@@ -45,7 +46,7 @@ namespace Chip8.Core
 		//Input
 		public byte[] key = new byte[16];
 
-		public event Action BeepRequested;
+		public event Action<bool> SoundStateChanged;
 
 		bool programLoaded;
 
@@ -104,6 +105,7 @@ namespace Chip8.Core
 			// Reset timers
 			delay_timer = 0;
 			sound_timer = 0;
+			SetSoundActive(false);
 
 			// Clear screen once
 			drawFlag = true;
@@ -413,6 +415,7 @@ namespace Chip8.Core
 
 						case 0x0018: // FX18: Sets the sound timer to VX
 							sound_timer = V[(opcode & 0x0F00) >> 8];
+							SetSoundActive(sound_timer > 0);
 							pc += 2;
 						break;
 
@@ -476,10 +479,19 @@ namespace Chip8.Core
 
 			if(sound_timer > 0)
 			{
-				if(sound_timer == 1)
-					BeepRequested?.Invoke();
 				--sound_timer;
 			}
+
+			SetSoundActive(sound_timer > 0);
+		}
+
+		void SetSoundActive(bool isActive)
+		{
+			if(soundActive == isActive)
+				return;
+
+			soundActive = isActive;
+			SoundStateChanged?.Invoke(isActive);
 		}
 
 		public void DebugRender()

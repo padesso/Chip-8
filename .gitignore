@@ -258,4 +258,8 @@ paket-files/
 
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
+
+# Local .NET CLI transient artifacts used during sandboxed/local builds
+/.dotnet-home/
+/.dotnet/TelemetryStorageService/
 *.pyc

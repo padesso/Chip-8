@@ -16,6 +16,7 @@ public partial class MainWindow : Window
 
     private readonly Chip8Core _chip8 = new();
     private readonly DispatcherTimer _frameTimer = new();
+    private readonly MacTonePlayer _tonePlayer = new();
 
     private static readonly Dictionary<Key, int> KeyMap = new()
     {
@@ -44,7 +45,7 @@ public partial class MainWindow : Window
         _chip8.Initialize();
         Display.FrameBuffer = _chip8.gfx;
 
-        _chip8.BeepRequested += OnBeepRequested;
+        _chip8.SoundStateChanged += OnSoundStateChanged;
 
         _frameTimer.Interval = TimeSpan.FromSeconds(1.0 / 60.0);
         _frameTimer.Tick += FrameTimer_Tick;
@@ -67,7 +68,8 @@ public partial class MainWindow : Window
     private void MainWindow_Closed(object? sender, EventArgs e)
     {
         _frameTimer.Stop();
-        _chip8.BeepRequested -= OnBeepRequested;
+        _chip8.SoundStateChanged -= OnSoundStateChanged;
+        _tonePlayer.Dispose();
     }
 
     private void FrameTimer_Tick(object? sender, EventArgs e)
@@ -165,8 +167,8 @@ public partial class MainWindow : Window
         return null;
     }
 
-    private static void OnBeepRequested()
+    private void OnSoundStateChanged(bool enabled)
     {
-        Console.Write('\a');
+        _tonePlayer.SetEnabled(enabled);
     }
 }

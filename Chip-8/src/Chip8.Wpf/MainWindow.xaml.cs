@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using Chip8.Core;
+using Chip8Core = Chip8.Core.Chip8;
 using MicroLibrary;
 using Microsoft.Win32;
 
@@ -16,12 +16,13 @@ namespace CHIP_8
 		const int CYCLES_PER_FRAME = 10;
 
 		//the emulator
-		Chip8 chip8;
+		Chip8Core chip8;
 
 		//use a system timer to get double precision interval for the system timer
 		MicroTimer hiResTimer = new MicroTimer((long)(1000000.0f / 60.0f)); //60 Hz
 
 		WriteableBitmap bitmap;
+		readonly Chip8TonePlayer tonePlayer = new Chip8TonePlayer();
 
 		public MainWindow()
 		{
@@ -37,12 +38,22 @@ namespace CHIP_8
 			setupInput();
 
 			//kick off the emulator
-			chip8 = new Chip8();
+			chip8 = new Chip8Core();
 			chip8.Initialize();
-			chip8.BeepRequested += OnBeepRequested;
+			chip8.SoundStateChanged += OnSoundStateChanged;
 
 			hiResTimer.MicroTimerElapsed += new MicroTimer.MicroTimerElapsedEventHandler(hiResTick);
 			hiResTimer.Enabled = true;
+		}
+
+		private void Window_Closed(object sender, EventArgs e)
+		{
+			hiResTimer.Enabled = false;
+
+			if (chip8 != null)
+				chip8.SoundStateChanged -= OnSoundStateChanged;
+
+			tonePlayer.Dispose();
 		}
 
 		void hiResTick(object sender, MicroTimerEventArgs timerEventArgs)
@@ -164,16 +175,9 @@ namespace CHIP_8
 			this.Close();
 		}
 
-		private static void OnBeepRequested()
+		private void OnSoundStateChanged(bool enabled)
 		{
-			try
-			{
-				Console.Beep();
-			}
-			catch
-			{
-				// Ignore if no system beep device is available.
-			}
+			tonePlayer.SetEnabled(enabled);
 		}
 	}
 }
