@@ -36,6 +36,17 @@ On macOS with Homebrew:
 brew install --cask dotnet-sdk
 ```
 
+## Repository Hygiene
+
+This repository tracks source code, solution/project files, and ROM assets only.
+Local SDK/runtime/cache folders are intentionally ignored and should never be committed:
+
+- `.dotnet/`
+- `.dotnet-home/`
+- `.local/`
+- `.nuget/`
+- `Library/`
+
 ## Build and Run on macOS (Avalonia)
 
 ```bash
