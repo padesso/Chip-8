@@ -1,6 +1,6 @@
 # Chip-8 Emulator
 
-A [CHIP-8](https://en.wikipedia.org/wiki/CHIP-8) emulator built with C# and WPF targeting .NET Framework 4.
+A [CHIP-8](https://en.wikipedia.org/wiki/CHIP-8) emulator built with C# and WPF targeting .NET 9.
 
 ## Features
 
@@ -16,7 +16,8 @@ A [CHIP-8](https://en.wikipedia.org/wiki/CHIP-8) emulator built with C# and WPF 
 ### Prerequisites
 
 - Windows
-- [Visual Studio](https://visualstudio.microsoft.com/) with .NET Framework 4 workload installed
+- [.NET 9 SDK](https://dotnet.microsoft.com/download/dotnet/9.0) or later
+- [Visual Studio 2022](https://visualstudio.microsoft.com/) (or later) with the **.NET desktop development** workload, **or** the [.NET 9 SDK](https://dotnet.microsoft.com/download/dotnet/9.0) for command-line builds
 
 ### Build & Run
 
@@ -24,6 +25,13 @@ A [CHIP-8](https://en.wikipedia.org/wiki/CHIP-8) emulator built with C# and WPF 
 2. Build the solution (`Ctrl+Shift+B`).
 3. Run the project (`F5` or `Ctrl+F5`).
 4. Use **File → Open Program** to load a ROM from the `ROMS/` directory.
+
+Alternatively, use the .NET CLI:
+
+```bash
+cd Chip-8/chip-8
+dotnet run
+```
 
 ## Keyboard Mapping
 
