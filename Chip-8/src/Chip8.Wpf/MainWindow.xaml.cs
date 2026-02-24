@@ -166,7 +166,7 @@ namespace CHIP_8
 			OpenFileDialog ofd = new OpenFileDialog();
 			if (ofd.ShowDialog() == true)
 			{
-				chip8.LoadProgram(ofd.FileName);
+				chip8.ResetAndLoadProgram(ofd.FileName);
 			}
 		}
 

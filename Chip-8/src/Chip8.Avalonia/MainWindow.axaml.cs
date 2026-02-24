@@ -61,7 +61,7 @@ public partial class MainWindow : Window
         string? defaultRom = TryFindDefaultRom();
         if (defaultRom is not null)
         {
-            _chip8.LoadProgram(defaultRom);
+            _chip8.ResetAndLoadProgram(defaultRom);
         }
     }
 
@@ -119,7 +119,7 @@ public partial class MainWindow : Window
             return;
         }
 
-        _chip8.LoadProgram(localPath);
+        _chip8.ResetAndLoadProgram(localPath);
         Display.InvalidateVisual();
     }
 

@@ -117,9 +117,19 @@ namespace Chip8.Core
 
 		public bool LoadProgram(string filename)
 		{
+			return ResetAndLoadProgram(filename);
+		}
+
+		public bool ResetAndLoadProgram(string filename)
+		{
 			Console.WriteLine("Loading: " + filename);
 			Initialize();  //reset
-			
+
+			return LoadProgramWithoutReset(filename);
+		}
+
+		bool LoadProgramWithoutReset(string filename)
+		{
 			//load file
 			byte[] loadedProgramBytes = null;
 			try
@@ -343,11 +353,15 @@ namespace Chip8.Core
 						{
 							if ((pixel & (0x80 >> xline)) != 0)
 							{
-								if (gfx[(x + xline + ((y + yline) * 64))] == 1)
+								int xCoord = (x + xline) % 64;
+								int yCoord = (y + yline) % 32;
+								int pixelIndex = xCoord + (yCoord * 64);
+
+								if (gfx[pixelIndex] == 1)
 								{
 									V[0xF] = 1;
 								}
-								gfx[x + xline + ((y + yline) * 64)] ^= 1;
+								gfx[pixelIndex] ^= 1;
 							}
 						}
 					}
